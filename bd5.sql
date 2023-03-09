@@ -26,6 +26,17 @@ FROM asignatura a, departamento d
 WHERE a.id_departamento=d.codigo AND d.codigo_postal=(SELECT MAX(codigo_postal) FROM departamento);
 
 #Muestra el nombre de la asignatura y la carrera de aquellas carreras que tienen 6 ó 7 asignaturas.
-SELECT a.nombre, c.*
+SELECT a.nombre, c.*, count(*)
 FROM asignatura a, carrera c
-WHERE a.id_carrera = c.codigo;
+WHERE a.id_carrera = c.codigo
+having count(*) = 6 or count(*) = 7
+group by c.codigo;
+
+SELECT d.nombre, d.codigo
+from departamento d, asignatura a
+where a.id_departamento = d.codigo and a.curso=5;
+
+SELECT al.nombre, a.*
+from alumno al, asignatura a, alumno_asignatura aa
+where al.dni = aa.id_alumno and a.codigo = aa.id_asignatura and AVG(aa.calificacion_junio + aa.calificacion_septiembre);
+
